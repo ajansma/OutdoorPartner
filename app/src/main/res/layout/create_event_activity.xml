@@ -6,57 +6,57 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/eventNameText"
+        android:id="@+id/textViewEventName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="10dp"
-        android:text="Event Name:"
-        app:layout_constraintBottom_toTopOf="@+id/setDateButtom"
-        app:layout_constraintEnd_toStartOf="@+id/editEventNameText"
+        android:text="@string/event_name"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSetDate"
+        app:layout_constraintEnd_toStartOf="@+id/editTextEventName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editEventNameText"
+        android:id="@+id/editTextEventName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:ems="10"
-        android:hint="Enter a name for your event!"
+        android:hint="@string/enter_a_name_for_your_event"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="@+id/eventNameText"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEventName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/eventNameText"
-        app:layout_constraintTop_toTopOf="@+id/eventNameText" />
+        app:layout_constraintStart_toEndOf="@+id/textViewEventName"
+        app:layout_constraintTop_toTopOf="@+id/textViewEventName" />
 
     <Button
-        android:id="@+id/setDateButtom"
+        android:id="@+id/buttonSetDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="10dp"
-        android:text="Date"
+        android:text="@string/date"
         app:layout_constraintBottom_toTopOf="@+id/spinnerEventType"
-        app:layout_constraintEnd_toStartOf="@+id/setTimeButton"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSetTime"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventNameText" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewEventName" />
 
     <Button
-        android:id="@+id/setTimeButton"
+        android:id="@+id/buttonSetTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="5dp"
-        android:text="Time"
-        app:layout_constraintBottom_toBottomOf="@+id/setDateButtom"
+        android:text="@string/time"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonSetDate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/setDateButtom"
-        app:layout_constraintTop_toTopOf="@+id/setDateButtom" />
+        app:layout_constraintStart_toEndOf="@+id/buttonSetDate"
+        app:layout_constraintTop_toTopOf="@+id/buttonSetDate" />
 
     <EditText
         android:id="@+id/editTextEventDescription"
@@ -65,7 +65,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Enter a description of your event!"
+        android:hint="@string/enter_a_description_of_your_event"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +81,7 @@
         app:layout_constraintBottom_toTopOf="@+id/editTextEventDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/setDateButtom" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonSetDate" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
@@ -100,7 +100,7 @@
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="10dp"
         android:background="@color/dark_green"
-        android:text="Upload Event"
+        android:text="@string/upload_event"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonCancel"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +113,7 @@
         android:layout_marginStart="1dp"
         android:layout_marginEnd="5dp"
         android:background="@color/cancel_red"
-        android:text="Cancel"
+        android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="@+id/buttonUploadEvent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonUploadEvent"

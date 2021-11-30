@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinnerEventTypes">
+        <item>Hike</item>
+        <item>Bike</item>
+        <item>Trail Run</item>
+        <item>Yoga</item>
+        <item>Rock Climb</item>
+        <item>Hammock Sesh</item>
+        <item>Swim</item>
+        <item>Cliff Jump</item>
+    </string-array>
+</resources>
