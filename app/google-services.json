@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "451803135439",
+    "firebase_url": "https://outdoorpartner-421fa-default-rtdb.firebaseio.com/",
+    "project_id": "outdoorpartner-421fa",
+    "storage_bucket": "outdoorpartner-421fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451803135439:android:ce8c6278ebb159af9d66ba",
+        "android_client_info": {
+          "package_name": "com.example.outdoorpartners"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "451803135439-viqv4jqrfd8kqvd4mh6p4qnl56mrk1n2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtQdSMNXIlQIlQF7jg6rAB1FvZz5G4jKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "451803135439-viqv4jqrfd8kqvd4mh6p4qnl56mrk1n2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
