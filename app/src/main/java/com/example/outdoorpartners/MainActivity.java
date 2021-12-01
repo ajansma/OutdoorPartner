@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         // set up connection between real-time database and app!
         mFirebaseDatabase = FirebaseDatabase.getInstance("https://outdoorpartner-421fa-default-rtdb.firebaseio.com/");
-        mDatabaseReference = mFirebaseDatabase.getReference().child("messages");
+        mDatabaseReference = mFirebaseDatabase.getReference().child("events");
 
         super.onCreate(savedInstanceState);
         eventList.add(event1);
@@ -54,8 +54,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO: set up click listeners
 
         // TODO: write to the database
-        // use the setValue() to set the value for the current key reference
-        // use push to add a key value pair for the current key
+        mDatabaseReference.setValue(event1);
 
 
         // TODO: Read from the database
