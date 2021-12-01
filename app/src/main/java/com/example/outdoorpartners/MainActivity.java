@@ -26,10 +26,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
-
+    CustomAdapter adapter = new CustomAdapter();
     static final String TAG = "MainActivityTag";
     ArrayList<Event> eventList = new ArrayList<>();
-    Event event1 = new Event(1, "Hike at Bowl and Pitcher", R.drawable.bowlpitcher , "5/31/21", "3:30pm", "hike", "good hike", "Spokane");
+
+    Event event1 = new Event("5/31/21", "Good Hike", 1, R.drawable.bowlpitcher,  "Spokane", "Bowl and Pitcher", "3:30pm", "hike");
 
 
     @Override
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         mDatabaseReference = mFirebaseDatabase.getReference().child("events");
 
         super.onCreate(savedInstanceState);
-        eventList.add(event1);
+        //eventList.add(event1);
         setContentView(R.layout.activity_main);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
@@ -48,13 +49,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         // set up a custom adapter
-        CustomAdapter adapter = new CustomAdapter();
+        //CustomAdapter adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
 
         // TODO: set up click listeners
 
         // TODO: write to the database
-        mDatabaseReference.setValue(event1);
+        mDatabaseReference.push().setValue(event1);
 
 
         // TODO: Read from the database
@@ -64,6 +65,14 @@ public class MainActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 // called for each child event that already exists when the listener is first attached
                 // called whenever a new event is inserted
+                Event event = null;
+                if(dataSnapshot != null) {
+                    event = dataSnapshot.getValue(Event.class);
+                }
+                if(event != null){
+                     eventList.add(event);
+                }
+                MainActivity.this.adapter.notifyItemChanged(eventList.size());
             }
 
             @Override
@@ -126,7 +135,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-                Log.d(TAG, "Good luck");
                 Event event = eventList.get(position);
                 holder.updateView(event);
             }
