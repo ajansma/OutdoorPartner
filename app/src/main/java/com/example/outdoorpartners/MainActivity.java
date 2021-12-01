@@ -14,9 +14,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mMessagesDatabaseReference;
+
     static final String TAG = "MainActivityTag";
     ArrayList<Event> eventList = new ArrayList<>();
     Event event1 = new Event(1, "Hike at Bowl and Pitcher", R.drawable.bowlpitcher , "5/31/21", "3:30pm", "hike", "good hike", "Spokane");
@@ -24,6 +30,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://outdoorpartner-421fa-default-rtdb.firebaseio.com/");
+        mFirebaseDatabase = FirebaseDatabase.getInstance("https://outdoorpartner-421fa-default-rtdb.firebaseio.com/");
+        mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("messages");
+
+
         super.onCreate(savedInstanceState);
         eventList.add(event1);
         setContentView(R.layout.activity_main);
