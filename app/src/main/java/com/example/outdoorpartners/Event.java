@@ -11,7 +11,7 @@ public class Event {
     String description;
     String location;
 
-    public Event(int id, String name, int image, String date, String time, String type, String description, String location){
+    public Event(String date, String description, int id, int image, String location, String name,  String time, String type){
         this.event_id = id;
         this.name = name;
         this.image = image;
@@ -20,6 +20,9 @@ public class Event {
         this.type = type;
         this.description = description;
         this.location = location;
+    }
+    public Event(){
+
     }
 
     public int getEvent_id() {
