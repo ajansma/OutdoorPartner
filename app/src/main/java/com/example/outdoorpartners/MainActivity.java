@@ -16,6 +16,12 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +47,17 @@ public class MainActivity extends AppCompatActivity {
     CustomAdapter adapter = new CustomAdapter();
     static final String TAG = "MainActivityTag";
     ArrayList<Event> eventList = new ArrayList<>();
+
+    public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
+    public NavigationView navView;
+
+    //intents
+    Intent intentMainToFind;
+    Intent intentMainToCreate;
+
+    ActivityResultLauncher<Intent> launcher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,30 +211,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-
-    /*
-    Keep track of what happens when items are selected
-     */
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-
-        // switch statement to add/delete items
-        switch(itemId) {
-            case R.id.addMenuItem:
-                // add a new item to the list
-                Log.d(TAG, "OnEventClick");
-
-                // start new intent
-                Intent intent = new Intent(MainActivity.this, CreateEventActivity.class);
-
-                // send to new activity
-                launcher.launch(intent);
-                return true; // this event has been consumed/handled
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder>{
         class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
