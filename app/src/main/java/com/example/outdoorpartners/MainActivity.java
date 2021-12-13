@@ -73,6 +73,26 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.my_drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
+        navView = findViewById(R.id.nav_view);
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                switch(itemId){
+                    case R.id.create_events:
+                        launcher.launch(intentMainToCreate);
+                        Log.d(TAG, "maintocreate:");
+                        break;
+                    case R.id.view_events:
+                        drawerLayout.closeDrawers();
+                        break;
+                    case R.id.find_events:
+                        launcher.launch(intentMainToFind);
+                        break;
+                }
+                return true;
+            }
+        });
 
         // pass the Open and Close toggle for the drawer layout listener
         // to toggle the button
@@ -191,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 });
-*/
+
     }
 
 
