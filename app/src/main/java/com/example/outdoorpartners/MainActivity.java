@@ -1,20 +1,36 @@
 package com.example.outdoorpartners;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.media.session.PlaybackState;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.outdoorpartners.databinding.ActivityMainBinding;
+import com.google.android.gms.instantapps.Launcher;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,25 +40,52 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     CustomAdapter adapter = new CustomAdapter();
     static final String TAG = "MainActivityTag";
     ArrayList<Event> eventList = new ArrayList<>();
 
+    public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
+
+    //intents
+    Intent intentMainToFind;
+    Intent intentMainToCreate;
+
+    ActivityResultLauncher<Intent> launcher;
+
     Event event1 = new Event("5/31/21", "Good Hike", 1, R.drawable.bowlpitcher,  "Spokane", "Bowl and Pitcher", "3:30pm", "hike");
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        //variables
+        intentMainToFind = new Intent(MainActivity.this, FindEventsActivity.class);
+        intentMainToCreate = new Intent(MainActivity.this, CreateEventActivity.class);
+
+        //eventList.add(event1);
+        setContentView(R.layout.activity_main);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
+        drawerLayout = findViewById(R.id.my_drawer_layout);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
+
+        // pass the Open and Close toggle for the drawer layout listener
+        // to toggle the button
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+
+        // to make the Navigation drawer icon always appear on the action bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // set up connection between real-time database and app!
         mFirebaseDatabase = FirebaseDatabase.getInstance("https://outdoorpartner-421fa-default-rtdb.firebaseio.com/");
         mDatabaseReference = mFirebaseDatabase.getReference().child("events");
 
-        super.onCreate(savedInstanceState);
-        //eventList.add(event1);
-        setContentView(R.layout.activity_main);
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         // set up the layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -98,7 +141,42 @@ public class MainActivity extends AppCompatActivity {
         };
 
         mDatabaseReference.addChildEventListener(childEventListener);
+;
 
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                    }
+
+                });
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
+            int itemId = item.getItemId();
+            switch(itemId){
+                case R.id.create_events:
+                    Toast.makeText(this, "main to create", Toast.LENGTH_SHORT).show();
+                    launcher.launch(intentMainToCreate);
+                    Log.d(TAG, "maintocreate:");
+                    break;
+                case R.id.view_events:
+                    drawerLayout.closeDrawers();
+                    break;
+                case R.id.find_events:
+                    launcher.launch(intentMainToFind);
+                    break;
+
+            }
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder>{

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/create_events"
+            android:icon="@android:drawable/ic_input_add"
+            android:title="Create Events" />
+        <item
+            android:id="@+id/find_events"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="Find Events" />
+        <item
+            android:id="@+id/view_events"
+            android:icon="@android:drawable/star_big_on"
+            android:title="View Your Events" />
+    </group>
+</menu>

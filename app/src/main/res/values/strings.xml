@@ -7,4 +7,7 @@
     <string name="enter_a_description_of_your_event">Enter a description of your event!</string>
     <string name="upload_event">Upload Event</string>
     <string name="cancel">Cancel</string>
+    <string name="title_activity_maps">FindEventsActivity</string>
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
 </resources>
