@@ -73,26 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = findViewById(R.id.my_drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.nav_open, R.string.nav_close);
-        navView = findViewById(R.id.nav_view);
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-                switch(itemId){
-                    case R.id.create_events:
-                        launcher.launch(intentMainToCreate);
-                        Log.d(TAG, "maintocreate:");
-                        break;
-                    case R.id.view_events:
-                        drawerLayout.closeDrawers();
-                        break;
-                    case R.id.find_events:
-                        launcher.launch(intentMainToFind);
-                        break;
-                }
-                return true;
-            }
-        });
 
         // pass the Open and Close toggle for the drawer layout listener
         // to toggle the button
@@ -159,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-        
+
         // TODO: Read from the database
         // use child listeners to automatically update data
         ChildEventListener childEventListener = new ChildEventListener() {
@@ -172,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     event = dataSnapshot.getValue(Event.class);
                 }
                 if(event != null){
-                     eventList.add(event);
+                    eventList.add(event);
                 }
                 MainActivity.this.adapter.notifyItemChanged(eventList.size());
             }
@@ -201,9 +181,8 @@ public class MainActivity extends AppCompatActivity {
         };
 
         mDatabaseReference.addChildEventListener(childEventListener);
-;
+        ;
 
-/*
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
@@ -276,26 +255,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-            @NonNull
-            @Override
-            public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.cardview, parent, false);
-                return new CustomViewHolder(view);
-            }
+        @NonNull
+        @Override
+        public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.cardview, parent, false);
+            return new CustomViewHolder(view);
+        }
 
-            @Override
-            public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-                Event event = eventList.get(position);
-                holder.updateView(event);
-            }
+        @Override
+        public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
+            Event event = eventList.get(position);
+            holder.updateView(event);
+        }
 
-            /*
-            This method keeps track of how many items are in the recycler view
-             */
-            @Override
-            public int getItemCount() {
-                return eventList.size();
-            }
+        /*
+        This method keeps track of how many items are in the recycler view
+         */
+        @Override
+        public int getItemCount() {
+            return eventList.size();
+        }
     }
 }
 
