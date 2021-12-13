@@ -4,7 +4,7 @@ public class Event {
     // declare variables
     int event_id;
     String name;
-    int image;
+    int image = R.drawable.placeholder;
     int day;
     int month;
     int year;
