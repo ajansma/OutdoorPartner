@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OutdoorPartners">
         <activity
+            android:name=".event_details"
+            android:exported="true" />
+        <activity
+            android:name=".CreateEventActivity"
+            android:exported="true"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
