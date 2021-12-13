@@ -32,8 +32,6 @@ public class CreateEventActivity extends AppCompatActivity {
     Button buttonUpload;
     Button buttonCancel;
 
-
-
     String eventName;
     int eventDay;
     int eventMonth;
