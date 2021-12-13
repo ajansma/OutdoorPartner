@@ -36,6 +36,7 @@ public class event_details extends AppCompatActivity {
             int day = intent.getIntExtra("day", -1);
             int hour = intent.getIntExtra("hour", -1);
             int eventMin = intent.getIntExtra("min", -1);
+            String type = intent.getStringExtra("type");
 
             // update view
             name.setText(event_name);

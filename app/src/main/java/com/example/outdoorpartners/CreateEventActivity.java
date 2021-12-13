@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,7 +25,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 public class CreateEventActivity extends AppCompatActivity {
-
+    static final String TAG = "MainActivityTag";
 
     Spinner spinnerEventType;
     EditText editTextEventName;
@@ -48,11 +51,13 @@ public class CreateEventActivity extends AppCompatActivity {
         setContentView(R.layout.create_event_activity);
 
         editTextEventName = findViewById(R.id.editTextEventName);
+        editTextDescription = findViewById(R.id.editTextEventDescription);
         buttonDate = findViewById(R.id.buttonSetDate);
         buttonTime = findViewById(R.id.buttonSetTime);
         buttonUpload = findViewById(R.id.buttonUploadEvent);
         buttonCancel = findViewById(R.id.buttonCancel);
         spinnerEventType = findViewById(R.id.spinnerEventType);
+
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinnerEventTypes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -68,11 +73,54 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
+
+
         MyDatePicker datePicker = new MyDatePicker(this,R.id.buttonSetDate);
 
         MyTimePicker timePicker = new MyTimePicker(this,R.id.buttonSetTime);
 
+        buttonUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // pull in information
+                description = editTextEventName.getText().toString();
+                eventName = editTextDescription.getText().toString();
+
+
+                Intent intent = new Intent(CreateEventActivity.this, MainActivity.class);
+
+                // put together intents
+                intent.putExtra("event_name", eventName);
+                intent.putExtra("event_description", description);
+                intent.putExtra("day", eventDay);
+                intent.putExtra("month", eventMonth);
+                intent.putExtra("year", eventYear);
+                intent.putExtra("hour", eventHour);
+                intent.putExtra("min", eventMin);
+                intent.putExtra("type", eventType);
+
+                System.out.println(eventName);
+
+                Log.d(TAG, "onClick");
+
+                // send back to main
+                setResult(Activity.RESULT_OK, intent);
+                CreateEventActivity.this.finish();
+
+
+            }
+        });
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setResult(Activity.RESULT_CANCELED);
+                CreateEventActivity.this.finish();
+            }
+        });
     }
+
+
 
     public class MyTimePicker implements View.OnClickListener, TimePickerDialog.OnTimeSetListener{
 
@@ -149,5 +197,7 @@ public class CreateEventActivity extends AppCompatActivity {
                     // Month is 0 based so add 1
                     .append(eventMonth+1).append("/").append(eventDay).append("/").append(eventYear).append(" "));
         }
+
+
     }
 }
