@@ -183,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
         mDatabaseReference.addChildEventListener(childEventListener);
 ;
 
+/*
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
@@ -190,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 });
-
+*/
     }
 
 
