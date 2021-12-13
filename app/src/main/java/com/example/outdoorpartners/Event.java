@@ -5,18 +5,24 @@ public class Event {
     int event_id;
     String name;
     int image;
-    String date;
-    String time;
+    int day;
+    int month;
+    int year;
+    int hour;
+    int min;
     String type;
     String description;
     String location;
 
-    public Event(String date, String description, int id, int image, String location, String name,  String time, String type){
+    public Event(String description, int id, int image, String location, String name, int year, int month, int day, int hour, int min, String type){
         this.event_id = id;
         this.name = name;
         this.image = image;
-        this.date = date;
-        this.time = time;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.hour = hour;
+        this.min = min;
         this.type = type;
         this.description = description;
         this.location = location;
@@ -29,17 +35,11 @@ public class Event {
         return event_id;
     }
 
-    public String getDate() {
-        return date;
-    }
 
     public String getLocation() {
         return location;
     }
 
-    public String getTime() {
-        return time;
-    }
 
     public String getType() {
         return type;
@@ -57,8 +57,44 @@ public class Event {
         return name;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
     }
 
     public void setImage(int image) {
@@ -79,10 +115,6 @@ public class Event {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public void setType(String type) {
