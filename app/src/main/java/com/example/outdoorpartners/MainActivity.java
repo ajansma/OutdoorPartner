@@ -16,11 +16,6 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.media.session.PlaybackState;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,18 +41,6 @@ public class MainActivity extends AppCompatActivity {
     CustomAdapter adapter = new CustomAdapter();
     static final String TAG = "MainActivityTag";
     ArrayList<Event> eventList = new ArrayList<>();
-
-    public DrawerLayout drawerLayout;
-    public ActionBarDrawerToggle actionBarDrawerToggle;
-
-    //intents
-    Intent intentMainToFind;
-    Intent intentMainToCreate;
-
-    ActivityResultLauncher<Intent> launcher;
-
-    Event event1 = new Event("5/31/21", "Good Hike", 1, R.drawable.bowlpitcher,  "Spokane", "Bowl and Pitcher", "3:30pm", "hike");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +78,31 @@ public class MainActivity extends AppCompatActivity {
         //CustomAdapter adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
 
-        // TODO: set up click listeners
+        launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        // get intent
+                        if(result.getResultCode() == RESULT_OK){
+                            Intent intent = result.getData();
+                            if(intent != null){
+                                String event_name = intent.getStringExtra("event_name");
+                                System.out.println(event_name);
+                                String event_description = intent.getStringExtra("event_description");
+                                int month = intent.getIntExtra("month", -1);
+                                int year =  intent.getIntExtra("year", -1);
+                                int day = intent.getIntExtra("day", -1);
+                                int hour = intent.getIntExtra("hour", -1);
+                                int eventMin = intent.getIntExtra("min", -1);
+                                String type = intent.getStringExtra("type");
 
-        // TODO: write to the database
-        mDatabaseReference.push().setValue(event1);
-
-
+                                Event event1 = new Event(event_description, 1, R.drawable.bowlpitcher,  "Spokane", event_name, year, month, day, hour, eventMin, type);
+                                mDatabaseReference.push().setValue(event1);
+                            }
+                        }
+                    }
+                });
+        
         // TODO: Read from the database
         // use child listeners to automatically update data
         ChildEventListener childEventListener = new ChildEventListener() {
@@ -121,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 // called when events content change
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -130,13 +133,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                    //called when the contents of an existing message moved in the List
+                //called when the contents of an existing message moved in the List
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // some sort of error occurred
-
+                Log.d(TAG, "error: onCancelled");
             }
         };
 
@@ -179,6 +182,43 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // menu stuff
+    /*
+   Create menu with add and delete buttons
+    */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // inflate main_menu.xml
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    /*
+    Keep track of what happens when items are selected
+     */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+
+        // switch statement to add/delete items
+        switch(itemId) {
+            case R.id.addMenuItem:
+                // add a new item to the list
+                Log.d(TAG, "OnEventClick");
+
+                // start new intent
+                Intent intent = new Intent(MainActivity.this, CreateEventActivity.class);
+
+                // send to new activity
+                launcher.launch(intent);
+                return true; // this event has been consumed/handled
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder>{
         class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             TextView myTitle;
@@ -200,6 +240,21 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                // get current vid
+                Intent intent = new Intent(MainActivity.this, event_details.class);
+                Event event = eventList.get(getAdapterPosition());
+
+                // put together intents
+                intent.putExtra("event_name", event.getName());
+                intent.putExtra("event_description", event.getDescription());
+                intent.putExtra("day", event.getDay());
+                intent.putExtra("month", event.getMonth());
+                intent.putExtra("year", event.getYear());
+                intent.putExtra("hour", event.getHour());
+                intent.putExtra("min", event.getMin());
+                intent.putExtra("type", event.getType());
+
+                launcher.launch(intent);
                 Log.d(TAG, "Clicked");
             }
         }
@@ -223,7 +278,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public int getItemCount() {
                 return eventList.size();
-                //return videoList.getList().size();
             }
     }
 }
