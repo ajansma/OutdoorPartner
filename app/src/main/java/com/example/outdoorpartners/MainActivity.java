@@ -81,6 +81,26 @@ public class MainActivity extends AppCompatActivity {
 
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        navView = findViewById(R.id.nav_view);
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+                switch(itemId){
+                    case R.id.create_events:
+                        launcher.launch(intentMainToCreate);
+                        Log.d(TAG, "maintocreate:");
+                        break;
+                    case R.id.view_events:
+                        drawerLayout.closeDrawers();
+                        break;
+                    case R.id.find_events:
+                        launcher.launch(intentMainToFind);
+                        break;
+                }
+                return true;
+            }
+        });
 
         // set up connection between real-time database and app!
         mFirebaseDatabase = FirebaseDatabase.getInstance("https://outdoorpartner-421fa-default-rtdb.firebaseio.com/");
@@ -176,24 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         if (actionBarDrawerToggle.onOptionsItemSelected(item)) {
-            int itemId = item.getItemId();
-            switch(itemId){
-                case R.id.create_events:
-                    Toast.makeText(this, "main to create", Toast.LENGTH_SHORT).show();
-                    launcher.launch(intentMainToCreate);
-                    Log.d(TAG, "maintocreate:");
-                    break;
-                case R.id.view_events:
-                    drawerLayout.closeDrawers();
-                    break;
-                case R.id.find_events:
-                    launcher.launch(intentMainToFind);
-                    break;
-
-            }
-
             return true;
         }
         return super.onOptionsItemSelected(item);
