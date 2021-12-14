@@ -1,11 +1,14 @@
 package com.example.outdoorpartners;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -33,6 +36,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FindEventsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationClickListener{
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
@@ -41,9 +47,13 @@ public class FindEventsActivity extends FragmentActivity implements OnMapReadyCa
     Marker marker;
 
     static final int LOCATION_REQUEST_CODE = 1;//needs to be unique within your app
-
+    Button buttonViewDetails;
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+
+    List<Event> events;
+    int currentEvent;
+
 
     ActivityResultLauncher<Intent> launcher;
     Intent intentMarkerToDetails;
@@ -54,7 +64,7 @@ public class FindEventsActivity extends FragmentActivity implements OnMapReadyCa
         intentMarkerToDetails = new Intent(FindEventsActivity.this, event_details.class);
         mFirebaseDatabase = FirebaseDatabase.getInstance("https://outdoorpartner-421fa-default-rtdb.firebaseio.com/");
         mDatabaseReference = mFirebaseDatabase.getReference().child("events");
-
+        events = new ArrayList<>();
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -63,9 +73,33 @@ public class FindEventsActivity extends FragmentActivity implements OnMapReadyCa
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(userLatLng, 15.0f);
-        //mMap.moveCamera(cameraUpdate);
 
+        buttonViewDetails = new Button(this);
+        buttonViewDetails.setText("View Details of ");
+        addContentView(buttonViewDetails, new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT));
+        buttonViewDetails.setBackgroundColor(getResources().getColor(R.color.dark_green));
+
+        buttonViewDetails.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                intentMarkerToDetails.putExtra("event_id",events.get(currentEvent).getEvent_id());
+                intentMarkerToDetails.putExtra("event_name",events.get(currentEvent).getName());
+                intentMarkerToDetails.putExtra("event_description",events.get(currentEvent).getDescription());
+                intentMarkerToDetails.putExtra("image",events.get(currentEvent).getImage());
+                intentMarkerToDetails.putExtra("day",events.get(currentEvent).getDay());
+                intentMarkerToDetails.putExtra("month",events.get(currentEvent).getMonth());
+                intentMarkerToDetails.putExtra("year",events.get(currentEvent).getYear());
+                intentMarkerToDetails.putExtra("minute",events.get(currentEvent).getMin());
+                intentMarkerToDetails.putExtra("hour",events.get(currentEvent).getHour());
+                intentMarkerToDetails.putExtra("lat",events.get(currentEvent).getLatitude());
+                intentMarkerToDetails.putExtra("lng",events.get(currentEvent).getLongitude());
+                intentMarkerToDetails.putExtra("type",events.get(currentEvent).getType());
+                intentMarkerToDetails.putExtra("loc_name",events.get(currentEvent).getLocationName());
+
+                launcher.launch(intentMarkerToDetails);
+            }
+        });
 
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
@@ -75,6 +109,7 @@ public class FindEventsActivity extends FragmentActivity implements OnMapReadyCa
                 Event event = null;
                 if(dataSnapshot != null) {
                     event = dataSnapshot.getValue(Event.class);
+                    events.add(event);
                     dropMarkers(event);
                 }
                 if(event != null){
@@ -118,7 +153,7 @@ public class FindEventsActivity extends FragmentActivity implements OnMapReadyCa
     public void dropMarkers(Event e){
         LatLng latLng = new LatLng(e.getLatitude(), e.getLongitude());
         String name = e.getName();
-        String description = e.getDescription();
+        String description = String.valueOf(events.size()-1);
         try {
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.title(name);
@@ -139,8 +174,8 @@ public class FindEventsActivity extends FragmentActivity implements OnMapReadyCa
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-
-                launcher.launch(intentMarkerToDetails);
+                buttonViewDetails.setText("View Details of " + marker.getTitle());
+                currentEvent = Integer.parseInt(marker.getSnippet());
                 return false;
             }
         });
