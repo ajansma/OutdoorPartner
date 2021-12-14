@@ -19,8 +19,15 @@ import android.widget.TextView;
 import java.util.List;
 
 public class MyActivities extends AppCompatActivity {
-    EventDatabaseHelper localEventHelper = new EventDatabaseHelper(this);
+    EventDatabaseHelper localEventHelper;
 
+    /*
+    public MyActivities(Event event){
+        System.out.println("Printing Event");
+        localEventHelper = new EventDatabaseHelper(this);
+        localEventHelper.insertContact(event);
+    }
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +39,16 @@ public class MyActivities extends AppCompatActivity {
 
         CustomAdapter adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
+        localEventHelper = new EventDatabaseHelper(this);
+        Event event1 = new Event("good hike", 1, R.drawable.bowlpitcher,"spokane", "hike", 2021, 01, 01, 10, 10, "hike");
+        localEventHelper.insertContact(event1);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void insertEvent(Event event){
+        System.out.println("Printing Event");
+        localEventHelper = new EventDatabaseHelper(this);
+        localEventHelper.insertContact(event);
     }
 
     class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {
@@ -75,7 +92,9 @@ public class MyActivities extends AppCompatActivity {
 
             @Override
             public int getItemCount() {
+                System.out.println("Size: " + localEventHelper.getSelectAllContacts().size());
                 return localEventHelper.getSelectAllContacts().size();
+
             }
 
         }

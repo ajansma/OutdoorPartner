@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -35,6 +36,7 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        Log.d(MainActivity.TAG, "entered On crete");
         String sqlCreate = "CREATE TABLE " + EVENTS_TABLE + "(" +
                 ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 NAME + " TEXT, " +
@@ -47,6 +49,7 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
                 TYPE + " TEXT, " +
                 LOCATION + " TEXT, " +
                 IMAGE_RESOURCE_ID + " INTEGER)";
+        Log.d(MainActivity.TAG, "onCreate: " + sqlCreate);
         sqLiteDatabase.execSQL(sqlCreate);
     }
 
@@ -56,6 +59,8 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void insertContact(Event event) {
+        System.out.println("Insert");
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(NAME, event.getName());
         contentValues.put(DESCRIPTION, event.getDescription());
@@ -71,6 +76,7 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
 
         // get a writeable ref to the database
         SQLiteDatabase db = getWritableDatabase();
+        System.out.println("Trying");
         db.insert(EVENTS_TABLE, null, contentValues);
         // close the writeable ref when done!!
         db.close();
@@ -105,6 +111,7 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
             // parse the field values
             int id = cursor.getInt(0);
             String name = cursor.getString(1);
+            System.out.println("NAME: " + name);
             String description = cursor.getString(2);
             int day = cursor.getInt(3);
             int month = cursor.getInt(4);
@@ -114,8 +121,10 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
             String type = cursor.getString(8);
             String location = cursor.getString(9);
             int image = cursor.getInt(10);
+
             Event event = new Event(description, id, image, location, name, year, month, day, hour, min, type);
-            // events.add(event);
+            System.out.println("EVENT" + event.getName());
+            events.add(event);
         }
         return events;
     }
@@ -149,7 +158,7 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
             String type = cursor.getString(8);
             String location = cursor.getString(9);
             int image = cursor.getInt(10);
-            // event = new Event(description, id, image, location, name, year, month, day, hour, min, type);
+            event = new Event(description, id, image, location, name, year, month, day, hour, min, type);
         }
         return event;
     }
@@ -176,11 +185,6 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
         }
         return ids;
     }
-
-    public void insertEvent(){
-
-    }
-
 
     public void deleteAllContacts() {
         SQLiteDatabase db = getWritableDatabase();

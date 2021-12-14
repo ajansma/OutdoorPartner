@@ -52,7 +52,6 @@ public class CreateEventActivity extends AppCompatActivity {
     Button buttonCancel;
     Button buttonLocation;
 
-
     String eventName;
     int eventDay;
     int eventMonth;
@@ -65,6 +64,8 @@ public class CreateEventActivity extends AppCompatActivity {
     String description;
     String location;
     LatLng eventLatLng;
+
+    MyActivities myActivities;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,8 +131,6 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-
-
         MyDatePicker datePicker = new MyDatePicker(this,R.id.buttonSetDate);
 
         MyTimePicker timePicker = new MyTimePicker(this,R.id.buttonSetTime);
@@ -169,6 +168,11 @@ public class CreateEventActivity extends AppCompatActivity {
                 intent.putExtra("locationName", location);
 
                 System.out.println(eventName);
+
+                // add to event database too
+                Event event = new Event(description, 0, R.drawable.placeholder, location, eventName, eventYear, eventMonth, eventDay, eventHour, eventMin, eventType);
+                // myActivities = new MyActivities(event);
+                // myActivities.insertEvent(event);
 
                 Log.d(TAG, "onClick");
 
