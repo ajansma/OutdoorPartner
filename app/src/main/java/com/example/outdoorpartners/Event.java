@@ -36,6 +36,22 @@ public class Event {
 
     }
 
+    public Event(String description, int id, int image, String location, String name, int year, int month, int day, int hour, int min, String type) {
+        this.event_id = id;
+        this.name = name;
+        this.image = image;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.hour = hour;
+        this.min = min;
+        this.type = this.type;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.locationName = locationName;
+    }
+
 
    /*
     public Event(String description, int day, int hour, String type, int id, int month, String location, String name, int min, int year, int image) {
