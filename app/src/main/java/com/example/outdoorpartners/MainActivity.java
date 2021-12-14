@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     //intents
     Intent intentMainToFind;
     Intent intentMainToCreate;
+    Intent intentMainToMyActivies;
 
     ActivityResultLauncher<Intent> launcher;
 
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         //variables
         intentMainToFind = new Intent(MainActivity.this, FindEventsActivity.class);
         intentMainToCreate = new Intent(MainActivity.this, CreateEventActivity.class);
+        intentMainToMyActivies = new Intent(MainActivity.this, MyActivities.class);
 
         //eventList.add(event1);
         setContentView(R.layout.activity_main);
@@ -97,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.find_events:
                         launcher.launch(intentMainToFind);
+                        break;
+                    case R.id.my_activities:
+                        launcher.launch(intentMainToMyActivies);
                         break;
                 }
                 return true;
