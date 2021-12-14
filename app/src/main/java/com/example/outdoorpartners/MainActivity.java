@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                                 Double lng = intent.getDoubleExtra("lng",-1);
                                 String locationName = intent.getStringExtra("locationName");
 
-                                Event event1 = new Event(event_description, 1, R.drawable.bowlpitcher,  "Spokane", event_name, year, month, day, hour, eventMin, type, lat, lng, locationName);
+                                Event event1 = new Event(event_description, 1, R.drawable.bowlpitcher,"Spokane", event_name, year, month, day, hour, eventMin, type, lat, lng, locationName);
                                 mDatabaseReference.push().setValue(event1);
                             }
                         }
