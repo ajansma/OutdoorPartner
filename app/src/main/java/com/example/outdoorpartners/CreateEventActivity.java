@@ -1,28 +1,43 @@
 package com.example.outdoorpartners;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.timepicker.TimeFormat;
 
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutionException;
 
 public class CreateEventActivity extends AppCompatActivity {
     static final String TAG = "MainActivityTag";
@@ -30,10 +45,13 @@ public class CreateEventActivity extends AppCompatActivity {
     Spinner spinnerEventType;
     EditText editTextEventName;
     EditText editTextDescription;
+    EditText editTextLocation;
     Button buttonDate;
     Button buttonTime;
     Button buttonUpload;
     Button buttonCancel;
+    Button buttonLocation;
+
 
     String eventName;
     int eventDay;
@@ -45,6 +63,8 @@ public class CreateEventActivity extends AppCompatActivity {
     TimeFormat eventTime;
     String eventType;
     String description;
+    String location;
+    LatLng eventLatLng;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +72,49 @@ public class CreateEventActivity extends AppCompatActivity {
 
         editTextEventName = findViewById(R.id.editTextEventName);
         editTextDescription = findViewById(R.id.editTextEventDescription);
+        editTextLocation = findViewById(R.id.editTextLocation);
         buttonDate = findViewById(R.id.buttonSetDate);
         buttonTime = findViewById(R.id.buttonSetTime);
         buttonUpload = findViewById(R.id.buttonUploadEvent);
         buttonCancel = findViewById(R.id.buttonCancel);
         spinnerEventType = findViewById(R.id.spinnerEventType);
+        buttonLocation = findViewById(R.id.buttonLocation);
 
+        editTextLocation.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String writing = editable.toString();
+                if(writing.length() == 0){
+                    buttonLocation.setVisibility(View.GONE);
+                    buttonLocation.setText("");
+                    location = "";
+                    eventLatLng = null;
+                }
+            }
+        });
+
+        editTextLocation.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_SEARCH) { // so the keyboard action button is a search icon
+                    location = String.valueOf(editTextLocation.getText());
+                    eventLatLng = getSearchedLocation(location);
+                    if(eventLatLng != null){
+                        buttonLocation.setVisibility(View.VISIBLE);
+                        buttonLocation.setText(location + " " + eventLatLng.toString());
+                    }
+                    return true;
+                }
+                return false;
+            }
+
+        });
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinnerEventTypes, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -89,6 +146,15 @@ public class CreateEventActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(CreateEventActivity.this, MainActivity.class);
 
+                if(eventName == ""){
+                    Toast.makeText(getApplicationContext(),"Must include an event name",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(eventLatLng == null){
+                    Toast.makeText(getApplicationContext(),"Must include a location for your event",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 // put together intents
                 intent.putExtra("event_name", eventName);
                 intent.putExtra("event_description", description);
@@ -98,6 +164,9 @@ public class CreateEventActivity extends AppCompatActivity {
                 intent.putExtra("hour", eventHour);
                 intent.putExtra("min", eventMin);
                 intent.putExtra("type", eventType);
+                intent.putExtra("lat", eventLatLng.latitude);
+                intent.putExtra("lng", eventLatLng.longitude);
+                intent.putExtra("locationName", location);
 
                 System.out.println(eventName);
 
@@ -120,7 +189,21 @@ public class CreateEventActivity extends AppCompatActivity {
         });
     }
 
+    public LatLng getSearchedLocation(String locationStr){
+        LatLng latlng = null;
 
+        Geocoder gc = new Geocoder(this);
+        try {
+            List<Address> addrList = gc.getFromLocationName(locationStr,1);
+            if(addrList !=null && addrList.size()>0){
+                Address ad = addrList.get(0);
+                latlng = new LatLng(ad.getLatitude(),ad.getLongitude());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return latlng;
+    }
 
     public class MyTimePicker implements View.OnClickListener, TimePickerDialog.OnTimeSetListener{
 

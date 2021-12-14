@@ -12,7 +12,7 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="1dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:text="@string/event_name"
         app:layout_constraintBottom_toTopOf="@+id/buttonSetDate"
         app:layout_constraintEnd_toStartOf="@+id/editTextEventName"
@@ -27,6 +27,7 @@
         android:layout_marginEnd="5dp"
         android:ems="10"
         android:hint="@string/enter_a_name_for_your_event"
+        android:autofillHints="@string/enter_a_name_for_your_event"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="@+id/textViewEventName"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,12 +65,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         android:ems="10"
+        android:inputType="text"
         android:gravity="start|top"
         android:hint="@string/enter_a_description_of_your_event"
-        android:inputType="textMultiLine"
+        android:autofillHints="@string/enter_a_description_of_your_event"
+        app:layout_constraintBottom_toTopOf="@+id/editTextLocation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerEventType" />
@@ -79,19 +83,27 @@
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/editTextEventDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonSetDate" />
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
+    <EditText
+        android:id="@+id/editTextLocation"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonUploadEvent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:ems="10"
+        android:imeOptions="actionSearch"
+        android:gravity="start|top"
+        android:inputType="textPostalAddress"
+        android:hint="@string/where_will_this_location_be"
+        android:autofillHints="Where will this location be?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextEventDescription" />
@@ -107,8 +119,7 @@
         android:text="@string/upload_event"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonCancel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonCancel"
@@ -122,5 +133,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonUploadEvent"
         app:layout_constraintTop_toTopOf="@+id/buttonUploadEvent" />
+
+    <Button
+        android:id="@+id/buttonLocation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:visibility="gone"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextLocation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.example.outdoorpartners.databinding.ActivityMainBinding;
 import com.google.android.gms.instantapps.Launcher;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -132,8 +133,11 @@ public class MainActivity extends AppCompatActivity {
                                 int hour = intent.getIntExtra("hour", -1);
                                 int eventMin = intent.getIntExtra("min", -1);
                                 String type = intent.getStringExtra("type");
+                                Double lat = intent.getDoubleExtra("lat",-1);
+                                Double lng = intent.getDoubleExtra("lng",-1);
+                                String locationName = intent.getStringExtra("locationName");
 
-                                Event event1 = new Event(event_description, 1, R.drawable.bowlpitcher,  "Spokane", event_name, year, month, day, hour, eventMin, type);
+                                Event event1 = new Event(event_description, 1, R.drawable.bowlpitcher,  "Spokane", event_name, year, month, day, hour, eventMin, type, lat, lng, locationName);
                                 mDatabaseReference.push().setValue(event1);
                             }
                         }

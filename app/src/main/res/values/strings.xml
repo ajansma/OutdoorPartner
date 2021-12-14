@@ -10,4 +10,5 @@
     <string name="title_activity_maps">FindEventsActivity</string>
     <string name="nav_open">Open</string>
     <string name="nav_close">Close</string>
+    <string name="where_will_this_location_be">Where will this location be?</string>
 </resources>

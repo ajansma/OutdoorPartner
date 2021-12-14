@@ -35,8 +35,11 @@ public class FindEventsActivity extends FragmentActivity implements OnMapReadyCa
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        dropMarkers();
     }
+    public void dropMarkers(){
 
+    }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
