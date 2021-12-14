@@ -43,7 +43,7 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
                 "MONTH" + " INTEGER, " +
                 "YEAR" + " INTEGER, " +
                 "MIN" + " INTEGER, " +
-                "HOUR" + "INTEGER," +
+                HOUR + " INTEGER," +
                 TYPE + " TEXT, " +
                 LOCATION + " TEXT, " +
                 IMAGE_RESOURCE_ID + " INTEGER)";
@@ -114,7 +114,7 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
             String type = cursor.getString(8);
             String location = cursor.getString(9);
             int image = cursor.getInt(10);
-            // Event event = new Event(description, id, image, location, name, year, month, day, hour, min, type);
+            Event event = new Event(description, id, image, location, name, year, month, day, hour, min, type);
             // events.add(event);
         }
         return events;
@@ -175,6 +175,10 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
             ids.add(id);
         }
         return ids;
+    }
+
+    public void insertEvent(){
+
     }
 
 
