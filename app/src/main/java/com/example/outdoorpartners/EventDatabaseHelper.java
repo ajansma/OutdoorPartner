@@ -164,7 +164,6 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
     public List<Integer> getSelectAllIds(){
         List<Integer> ids = new ArrayList<>();
         Cursor cursor = getSelectAllCursor();

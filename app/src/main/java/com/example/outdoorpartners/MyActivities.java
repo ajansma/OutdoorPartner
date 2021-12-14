@@ -72,6 +72,22 @@ public class MyActivities extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                List<Integer> ids = localEventHelper.getSelectAllIds();
+                Event event = localEventHelper.getSelectEventById(ids.get(getAdapterPosition()));
+                Intent intent = new Intent(MyActivities.this, event_details.class);
+
+                // put together intents
+                intent.putExtra("event_name", event.getName());
+                intent.putExtra("event_description", event.getDescription());
+                intent.putExtra("day", event.getDay());
+                intent.putExtra("month", event.getMonth());
+                intent.putExtra("year", event.getYear());
+                intent.putExtra("hour", event.getHour());
+                intent.putExtra("min", event.getMin());
+                intent.putExtra("type", event.getType());
+
+                startActivity(intent);
+                Log.d(MainActivity.TAG, "Clicked");
 
             }
         }
