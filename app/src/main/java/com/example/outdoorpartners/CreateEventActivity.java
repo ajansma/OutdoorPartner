@@ -104,7 +104,9 @@ public class CreateEventActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_SEARCH) { // so the keyboard action button is a search icon
                     location = String.valueOf(editTextLocation.getText());
+                    Log.d(TAG, location);
                     eventLatLng = getSearchedLocation(location);
+
                     if(eventLatLng != null){
                         buttonLocation.setVisibility(View.VISIBLE);
                         buttonLocation.setText(location + " " + eventLatLng.toString());
