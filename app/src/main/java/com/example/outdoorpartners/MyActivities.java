@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.annotation.NonNull;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,10 +17,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyActivities extends AppCompatActivity {
     EventDatabaseHelper localEventHelper = new EventDatabaseHelper(this);
+    public static ArrayList<Event> eventsToAdd = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,20 @@ public class MyActivities extends AppCompatActivity {
 
         CustomAdapter adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
+
+        int i = 0;
+        while(eventsToAdd.size() != 0){
+            localEventHelper.insertContact(eventsToAdd.get(i));
+            eventsToAdd.remove(i);
+            i++;
+
+        }
+
+
+    }
+
+    public Context returnContext(){
+        return this;
     }
 
     class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder> {

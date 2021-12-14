@@ -174,6 +174,9 @@ public class CreateEventActivity extends AppCompatActivity {
 
                 Log.d(TAG, "onClick");
 
+                Event event = new Event(description, 0, R.drawable.placeholder, location, eventName, eventYear, eventMonth, eventDay, eventHour, eventMin, eventType);
+                MyActivities.eventsToAdd.add(event);
+
                 // send back to main
                 setResult(Activity.RESULT_OK, intent);
                 CreateEventActivity.this.finish();
