@@ -43,7 +43,7 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
                 "MONTH" + " INTEGER, " +
                 "YEAR" + " INTEGER, " +
                 "MIN" + " INTEGER, " +
-                "HOUR" + "INTEGER," +
+                HOUR + " INTEGER," +
                 TYPE + " TEXT, " +
                 LOCATION + " TEXT, " +
                 IMAGE_RESOURCE_ID + " INTEGER)";
