@@ -139,11 +139,34 @@ public class MainActivity extends AppCompatActivity {
                         if(eventsToAdd.size() != 0){
                             System.out.println("onCreate");
                             int i = 0;
+                            while (eventsToAdd.size() != 0) {
+                                Event e2 = eventsToAdd.get(i);
+                                if(localEventHelper.getSelectAllContacts().size() == 0){
+                                    localEventHelper.insertContact(eventsToAdd.get(i));
+
+                                }
+                                else {
+                                    List<Event> currEvents = localEventHelper.getSelectAllContacts();
+                                    for (int j = 0; j < currEvents.size(); j++) {
+                                        Event e = currEvents.get(j);
+                                        if (!(e.getName().equals(e2.getName()) && e.getDescription().equals(e2.getDescription()))) {
+                                            if (!(e.getDay() == e2.getDay())) {
+                                                localEventHelper.insertContact(eventsToAdd.get(i));
+                                            }
+                                        }
+                                    }
+                                }
+                                eventsToAdd.remove(i);
+                                i++;
+                            }
+                            /*
                             while(eventsToAdd.size() != 0) {
                                 localEventHelper.insertContact(eventsToAdd.get(i));
                                 eventsToAdd.remove(i);
                                 i++;
                             }
+
+                             */
                             adapter.notifyDataSetChanged();
                         }
 
