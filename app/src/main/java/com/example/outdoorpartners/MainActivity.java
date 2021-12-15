@@ -404,29 +404,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public int getDrawableImage(String type){
-        if(type == "Hike"){
+    public int getDrawableImage(String typeName){
+        if(typeName.equals("Hike")){
             return R.drawable.hiking;
         }
-        if(type == "Bike"){
+        if(typeName.equals("Bike")){
             return R.drawable.bike;
         }
-        if(type == "Trail Run"){
+        if(typeName.equals("Trail Run")){
             return R.drawable.running;
         }
-        if(type == "Yoga"){
+        if(typeName.equals("Yoga")){
             return R.drawable.meditation;
         }
-        if(type == "Rock Climb"){
+        if(typeName.equals("Rock Climb")){
             return R.drawable.rock;
         }
-        if(type == "Hammock Sesh"){
+        if(typeName.equals("Hammock Sesh")){
             return R.drawable.hammock;
         }
-        if(type == "Swim"){
+        if(typeName.equals("Swim")){
             return R.drawable.swimming;
         }
-        if(type == "Cliff Jump"){
+        if(typeName.equals("Cliff Jump")){
             return R.drawable.base;
         }
 

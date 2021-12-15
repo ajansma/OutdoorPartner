@@ -50,11 +50,9 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
         android:text="Description"
         android:textAlignment="center"
         android:textSize="18dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
@@ -64,13 +62,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/checkJoinEvent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewType"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description"
         app:srcCompat="@drawable/bowlpitcher" />
 
     <CheckBox
@@ -99,5 +96,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/checkJoinEvent"
         app:layout_constraintTop_toTopOf="@+id/checkJoinEvent" />
+
+    <TextView
+        android:id="@+id/textViewType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

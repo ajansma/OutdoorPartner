@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,12 +19,14 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 public class event_details extends AppCompatActivity {
+    String TAG = "EventDetailTag";
     CheckBox checkBox;
     Button buttonMain;
     TextView textViewName;
     TextView textViewDescription;
     Button buttonDate;
     Button buttonTime;
+    TextView textViewType;
 
     ImageView imageView;
     Intent intentDetailsToMain;
@@ -69,6 +72,7 @@ public class event_details extends AppCompatActivity {
         checkBox = findViewById(R.id.checkJoinEvent);
         buttonMain = findViewById(R.id.buttonMain);
         imageView = findViewById(R.id.imageView);
+        textViewType = findViewById(R.id.textViewType);
 
         buttonMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,12 +124,13 @@ public class event_details extends AppCompatActivity {
             type = intent.getStringExtra("type");
             locationName = intent.getStringExtra("loc_name");
             boolean checked = intent.getBooleanExtra("checked_event", false);
-
+            Log.d(TAG, "draw: " + type);
             // update view
             textViewName.setText(name);
             textViewDescription.setText(description);
             checkBox.setChecked(checked);
             imageView.setImageResource(getDrawableImage(type));
+            textViewType.setText(type);
 
 
             // set date
@@ -159,29 +164,29 @@ public class event_details extends AppCompatActivity {
 
 
     }
-    public int getDrawableImage(String type){
-        if(type == "Hike"){
+    public int getDrawableImage(String typeName){
+        if(typeName.equals("Hike")){
             return R.drawable.hiking;
         }
-        if(type == "Bike"){
+        if(typeName.equals("Bike")){
             return R.drawable.bike;
         }
-        if(type == "Trail Run"){
+        if(typeName.equals("Trail Run")){
             return R.drawable.running;
         }
-        if(type == "Yoga"){
+        if(typeName.equals("Yoga")){
             return R.drawable.meditation;
         }
-        if(type == "Rock Climb"){
+        if(typeName.equals("Rock Climb")){
             return R.drawable.rock;
         }
-        if(type == "Hammock Sesh"){
+        if(typeName.equals("Hammock Sesh")){
             return R.drawable.hammock;
         }
-        if(type == "Swim"){
+        if(typeName.equals("Swim")){
             return R.drawable.swimming;
         }
-        if(type == "Cliff Jump"){
+        if(typeName.equals("Cliff Jump")){
             return R.drawable.base;
         }
 
