@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
 
             public void updateView(Event event) {
                 myTitle.setText(event.getName());
-                myImagePreview.setImageResource(event.getImage());
+                myImagePreview.setImageResource(getDrawableImage(event.type));
             }
 
 
@@ -346,6 +346,35 @@ public class MainActivity extends AppCompatActivity {
         public int getItemCount() {
             return localEventHelper.getSelectAllContacts().size();
         }
+    }
+
+    public int getDrawableImage(String type){
+        if(type == "Hike"){
+            return R.drawable.hiking;
+        }
+        if(type == "Bike"){
+            return R.drawable.bike;
+        }
+        if(type == "Trail Run"){
+            return R.drawable.running;
+        }
+        if(type == "Yoga"){
+            return R.drawable.meditation;
+        }
+        if(type == "Rock Climb"){
+            return R.drawable.rock;
+        }
+        if(type == "Hammock Sesh"){
+            return R.drawable.hammock;
+        }
+        if(type == "Swim"){
+            return R.drawable.swimming;
+        }
+        if(type == "Cliff Jump"){
+            return R.drawable.base;
+        }
+
+        return R.drawable.placeholder;
     }
 }
 

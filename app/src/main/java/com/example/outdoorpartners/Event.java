@@ -25,7 +25,7 @@ public class Event {
         this.day = day;
         this.hour = hour;
         this.min = min;
-        this.type = this.type;
+        this.type = type;
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
