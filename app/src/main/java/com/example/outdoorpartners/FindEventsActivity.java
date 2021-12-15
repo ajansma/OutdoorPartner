@@ -67,6 +67,7 @@ public class FindEventsActivity extends FragmentActivity implements OnMapReadyCa
         events = new ArrayList<>();
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        currentEvent = -1;
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -83,6 +84,11 @@ public class FindEventsActivity extends FragmentActivity implements OnMapReadyCa
 
             @Override
             public void onClick(View v) {
+                if(currentEvent ==-1){
+                    Toast.makeText(getApplicationContext(),"Must select a marker event to view details", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 intentMarkerToDetails.putExtra("event_id",events.get(currentEvent).getEvent_id());
                 intentMarkerToDetails.putExtra("event_name",events.get(currentEvent).getName());
                 intentMarkerToDetails.putExtra("event_description",events.get(currentEvent).getDescription());
@@ -213,7 +219,6 @@ public class FindEventsActivity extends FragmentActivity implements OnMapReadyCa
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(this, "free me", Toast.LENGTH_SHORT).show();
     }
 
 

@@ -91,7 +91,6 @@ public class CreateEventActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 String writing = editable.toString();
                 if(writing.length() == 0){
-                    buttonLocation.setVisibility(View.GONE);
                     buttonLocation.setText("");
                     location = "";
                     eventLatLng = null;
@@ -108,7 +107,6 @@ public class CreateEventActivity extends AppCompatActivity {
                     eventLatLng = getSearchedLocation(location);
 
                     if(eventLatLng != null){
-                        buttonLocation.setVisibility(View.VISIBLE);
                         buttonLocation.setText(location + " " + eventLatLng.toString());
                     }
                     return true;
