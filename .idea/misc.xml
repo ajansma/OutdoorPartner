@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/layout/activity_my_activities.xml" value="0.1" />
         <entry key="app/src/main/res/layout/cardview.xml" value="0.1" />
         <entry key="app/src/main/res/layout/create_event_activity.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.16875" />
         <entry key="app/src/main/res/menu/main_menu.xml" value="0.24635416666666668" />
       </map>
     </option>

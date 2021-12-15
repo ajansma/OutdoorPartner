@@ -115,7 +115,7 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
             String location = cursor.getString(9);
             int image = cursor.getInt(10);
             Event event = new Event(description, id, image, location, name, year, month, day, hour, min, type);
-            // events.add(event);
+            events.add(event);
         }
         return events;
     }
@@ -149,7 +149,7 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
             String type = cursor.getString(8);
             String location = cursor.getString(9);
             int image = cursor.getInt(10);
-            // event = new Event(description, id, image, location, name, year, month, day, hour, min, type);
+            event = new Event(description, id, image, location, name, year, month, day, hour, min, type);
         }
         return event;
     }
@@ -179,6 +179,12 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
 
     public void insertEvent(){
 
+    }
+
+    public void deleteEventById(int id){
+        SQLiteDatabase db = getReadableDatabase();
+        db.delete(EVENTS_TABLE,ID + "=?",
+                        new String[]{"" + id});
     }
 
 
