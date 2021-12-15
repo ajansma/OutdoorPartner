@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -24,6 +25,7 @@ public class event_details extends AppCompatActivity {
     Button buttonDate;
     Button buttonTime;
 
+    ImageView imageView;
     Intent intentDetailsToMain;
     ActivityResultLauncher<Intent> launcher;
 
@@ -66,6 +68,7 @@ public class event_details extends AppCompatActivity {
         buttonTime = findViewById(R.id.button2);
         checkBox = findViewById(R.id.checkJoinEvent);
         buttonMain = findViewById(R.id.buttonMain);
+        imageView = findViewById(R.id.imageView);
 
         buttonMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +118,8 @@ public class event_details extends AppCompatActivity {
             textViewName.setText(name);
             textViewDescription.setText(description);
             checkBox.setChecked(checked);
+            imageView.setImageResource(getDrawableImage(type));
+
 
             // set date
             buttonDate.setText(new StringBuilder()
@@ -146,5 +151,33 @@ public class event_details extends AppCompatActivity {
         }
 
 
+    }
+    public int getDrawableImage(String type){
+        if(type == "Hike"){
+            return R.drawable.hiking;
+        }
+        if(type == "Bike"){
+            return R.drawable.bike;
+        }
+        if(type == "Trail Run"){
+            return R.drawable.running;
+        }
+        if(type == "Yoga"){
+            return R.drawable.meditation;
+        }
+        if(type == "Rock Climb"){
+            return R.drawable.rock;
+        }
+        if(type == "Hammock Sesh"){
+            return R.drawable.hammock;
+        }
+        if(type == "Swim"){
+            return R.drawable.swimming;
+        }
+        if(type == "Cliff Jump"){
+            return R.drawable.base;
+        }
+
+        return R.drawable.placeholder;
     }
 }
