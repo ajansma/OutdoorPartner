@@ -158,6 +158,47 @@ public class MainActivity extends AppCompatActivity {
                                 mDatabaseReference.push().setValue(event1);
                             }
                         }
+                        else if(result.getResultCode() == RESULT_FIRST_USER){
+                            Intent intent = result.getData();
+                            if(intent != null) {
+                                Log.d(TAG, "RESULTS");
+                                // pull apart intents
+                                int event_id = intent.getIntExtra("event_id", -1);
+                                String event_name = intent.getStringExtra("event_name");
+                                System.out.println(event_name);
+                                String event_description = intent.getStringExtra("event_description");
+                                int month = intent.getIntExtra("month", -1);
+                                int year = intent.getIntExtra("year", -1);
+                                int day = intent.getIntExtra("day", -1);
+                                int hour = intent.getIntExtra("hour", -1);
+                                int eventMin = intent.getIntExtra("min", -1);
+                                String type = intent.getStringExtra("type");
+                                Double lat = intent.getDoubleExtra("lat", -1);
+                                Double lng = intent.getDoubleExtra("lng", -1);
+                                String locationName = intent.getStringExtra("locationName");
+                                Boolean checked = intent.getBooleanExtra("checked_event", false);
+                                System.out.println("CHECKED " + checked);
+                                // check if already in list
+                                List<Event> currEvents = localEventHelper.getSelectAllContacts();
+                                for(int i = 0; i < currEvents.size(); i++){
+                                    Event e = currEvents.get(i);
+                                    if(e.getName().equals(event_name) && e.getDescription().equals(event_description)){
+                                            if(e.getDay() == day){
+                                                if(!checked){
+                                                    List<Integer> ids = localEventHelper.getSelectAllIds();
+                                                    localEventHelper.deleteEventById(ids.get(i));
+                                                    adapter.notifyDataSetChanged();
+                                                }
+                                            }
+                                    }
+                                    else if (checked){
+                                        Event event = new Event(event_description, -1, R.drawable.placeholder, locationName, event_name, year, month, day, hour, eventMin, type);
+                                        localEventHelper.insertContact(event);
+                                    }
+                                }
+
+                            }
+                        }
                     }
                 });
 

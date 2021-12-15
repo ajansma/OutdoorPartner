@@ -83,11 +83,14 @@ public class event_details extends AppCompatActivity {
                 intentDetailsToMain.putExtra("lng",longitude);
                 intentDetailsToMain.putExtra("type",type);
                 intentDetailsToMain.putExtra("loc_name",locationName);
-
                 intentDetailsToMain.putExtra("checked_event", checkBox.isChecked());
+                System.out.println("Check" + checkBox.isChecked());
 
-                launcher.launch(intentDetailsToMain);
-            }
+                // send back to main
+                setResult(RESULT_FIRST_USER, intentDetailsToMain);
+
+                event_details.this.finish();
+           }
         });
 
         // display screen

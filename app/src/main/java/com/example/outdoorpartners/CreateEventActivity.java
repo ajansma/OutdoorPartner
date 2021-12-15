@@ -168,7 +168,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 intent.putExtra("type", eventType);
                 intent.putExtra("lat", eventLatLng.latitude);
                 intent.putExtra("lng", eventLatLng.longitude);
-                intent.putExtra("locationName", location);
+                intent.putExtra("loc_name", location);
 
                 System.out.println(eventName);
 
