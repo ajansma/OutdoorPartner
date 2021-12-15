@@ -84,7 +84,7 @@ public class event_details extends AppCompatActivity {
                 intentDetailsToMain.putExtra("day",day);
                 intentDetailsToMain.putExtra("month",month);
                 intentDetailsToMain.putExtra("year",year);
-                intentDetailsToMain.putExtra("minute",min);
+                intentDetailsToMain.putExtra("min",min);
                 intentDetailsToMain.putExtra("hour",hour);
                 intentDetailsToMain.putExtra("lat",latitude);
                 intentDetailsToMain.putExtra("lng",longitude);
