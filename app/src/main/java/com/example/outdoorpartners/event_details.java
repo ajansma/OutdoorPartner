@@ -90,7 +90,14 @@ public class event_details extends AppCompatActivity {
                 System.out.println("Check" + checkBox.isChecked());
 
                 // send back to main
-                setResult(RESULT_FIRST_USER, intentDetailsToMain);
+                Event event = new Event(description, 0, image, locationName, name, year, month, day, hour, min, type);
+                if(checkBox.isChecked()){
+                    MainActivity.eventsToAdd.add(event);
+                    System.out.println("Add event");
+                }
+                else if(!checkBox.isChecked()){
+                    MainActivity.eventsToRemove.add(event);
+                }
 
                 event_details.this.finish();
            }

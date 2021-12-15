@@ -51,8 +51,6 @@ Final Project 321
 public class MainActivity extends AppCompatActivity {
     // sqlite database
     EventDatabaseHelper localEventHelper = new EventDatabaseHelper(this);
-    public static ArrayList<Event> eventsToAdd = new ArrayList<>();
-
     //firebase database
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
@@ -70,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
     Intent intentMainToMyActivies;
 
     ActivityResultLauncher<Intent> launcher;
+
+    public static ArrayList<Event> eventsToAdd = new ArrayList<>();
+    public static ArrayList<Event> eventsToRemove = new ArrayList<>();
 
 
     @Override
@@ -134,6 +135,37 @@ public class MainActivity extends AppCompatActivity {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
+                        // first check if extra things need to be added to database
+                        if(eventsToAdd.size() != 0){
+                            System.out.println("onCreate");
+                            int i = 0;
+                            while(eventsToAdd.size() != 0) {
+                                localEventHelper.insertContact(eventsToAdd.get(i));
+                                eventsToAdd.remove(i);
+                                i++;
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        if(eventsToRemove.size() != 0){
+                            int i = 0;
+                            Event e2 = eventsToRemove.get(i);
+                            while (eventsToRemove.size() != 0) {
+                                List<Event> currEvents = localEventHelper.getSelectAllContacts();
+                                for (int j = 0; j < currEvents.size(); j++) {
+                                    Event e = currEvents.get(j);
+                                    if (e.getName().equals(e2.getName()) && e.getDescription().equals(e2.getDescription())) {
+                                        if (e.getDay() == e2.getDay()) {
+                                            List<Integer> ids = localEventHelper.getSelectAllIds();
+                                            localEventHelper.deleteEventById(ids.get(j));
+                                        }
+                                    }
+                                }
+                                eventsToRemove.remove(i);
+                                i++;
+                            }
+                            adapter.notifyDataSetChanged();
+                        }
                         // get intent
                         if(result.getResultCode() == RESULT_OK){
                             Intent intent = result.getData();
@@ -184,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                                 System.out.println("CHECKED " + checked);
                                 // check if already in list
                                 List<Event> currEvents = localEventHelper.getSelectAllContacts();
-                                for(int i = 0; i < currEvents.size(); i++){
+                                for(int i = 0; i <= currEvents.size(); i++){
                                     Event e = currEvents.get(i);
                                     if(e.getName().equals(event_name) && e.getDescription().equals(event_description)){
                                             if(e.getDay() == day){
@@ -198,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
                                     else if (checked){
                                         Event event = new Event(event_description, -1, R.drawable.placeholder, locationName, event_name, year, month, day, hour, eventMin, type);
                                         localEventHelper.insertContact(event);
+                                        adapter.notifyDataSetChanged();
                                     }
                                 }
 
