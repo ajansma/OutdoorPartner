@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -16,6 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,9 +42,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    // sqlite database
+    EventDatabaseHelper localEventHelper = new EventDatabaseHelper(this);
+    public static ArrayList<Event> eventsToAdd = new ArrayList<>();
 
+    //firebase database
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     CustomAdapter adapter = new CustomAdapter();
@@ -82,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
 
+        // add extra dataase info
+
         // to make the Navigation drawer icon always appear on the action bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         navView = findViewById(R.id.nav_view);
@@ -100,9 +109,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.find_events:
                         launcher.launch(intentMainToFind);
                         break;
-                    case R.id.my_activities:
-                        launcher.launch(intentMainToMyActivies);
-                        break;
                 }
                 return true;
             }
@@ -118,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         // set up a custom adapter
-        //CustomAdapter adapter = new CustomAdapter();
         recyclerView.setAdapter(adapter);
 
         launcher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
@@ -141,6 +146,13 @@ public class MainActivity extends AppCompatActivity {
                                 Double lat = intent.getDoubleExtra("lat",-1);
                                 Double lng = intent.getDoubleExtra("lng",-1);
                                 String locationName = intent.getStringExtra("locationName");
+
+                                int i = 0;
+                                while(eventsToAdd.size() != 0){
+                                    localEventHelper.insertContact(eventsToAdd.get(i));
+                                    eventsToAdd.remove(i);
+                                    i++;
+                                }
 
                                 Event event1 = new Event(event_description, 1, R.drawable.bowlpitcher,"Spokane", event_name, year, month, day, hour, eventMin, type, lat, lng, locationName);
                                 mDatabaseReference.push().setValue(event1);
@@ -190,8 +202,6 @@ public class MainActivity extends AppCompatActivity {
         };
 
         mDatabaseReference.addChildEventListener(childEventListener);
-
-
     }
 
 
@@ -207,17 +217,10 @@ public class MainActivity extends AppCompatActivity {
     /*
    Create menu with add and delete buttons
     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // inflate main_menu.xml
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
 
     class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomViewHolder>{
-        class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
             TextView myTitle;
             ImageView myImagePreview;
 
@@ -227,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
                 myImagePreview = itemView.findViewById(R.id.imagePreview);
 
                 itemView.setOnClickListener(this);
+                itemView.setOnLongClickListener(this);
             }
 
             public void updateView(Event event) {
@@ -239,7 +243,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // get current vid
                 Intent intent = new Intent(MainActivity.this, event_details.class);
-                Event event = eventList.get(getAdapterPosition());
+                List<Integer> ids = localEventHelper.getSelectAllIds();
+
+                Event event = localEventHelper.getSelectEventById(ids.get(getAdapterPosition()));
 
                 // put together intents
                 intent.putExtra("event_name", event.getName());
@@ -254,10 +260,27 @@ public class MainActivity extends AppCompatActivity {
                 launcher.launch(intent);
                 Log.d(TAG, "Clicked");
             }
+
+            @Override
+            public boolean onLongClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Remove Event")
+                        .setMessage("Are you sure you want to delete this event?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // delete video if user clicks yes
+                                List<Integer> ids = localEventHelper.getSelectAllIds();
+                                localEventHelper.deleteEventById(ids.get(getAdapterPosition()));
+                                adapter.notifyItemRemoved(getAdapterPosition());
+                            }
+                        })
+                        .setNegativeButton("No", null);
+                builder.show();
+                return false;
+            }
         }
 
-        @NonNull
-        @Override
         public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.cardview, parent, false);
             return new CustomViewHolder(view);
@@ -265,7 +288,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
-            Event event = eventList.get(position);
+            List<Integer> ids = localEventHelper.getSelectAllIds();
+            Event event = localEventHelper.getSelectEventById(ids.get(position));
             holder.updateView(event);
         }
 
@@ -274,7 +298,7 @@ public class MainActivity extends AppCompatActivity {
          */
         @Override
         public int getItemCount() {
-            return eventList.size();
+            return localEventHelper.getSelectAllContacts().size();
         }
     }
 }

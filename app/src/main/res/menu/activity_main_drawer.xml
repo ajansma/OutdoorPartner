@@ -16,9 +16,6 @@
             android:id="@+id/view_events"
             android:icon="@android:drawable/star_big_on"
             android:title="View Your Events" />
-        <item
-            android:id="@+id/my_activities"
-            android:icon="@android:drawable/ic_menu_compass"
-            android:title="My Activities" />
+
     </group>
 </menu>

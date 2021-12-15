@@ -181,6 +181,12 @@ public class EventDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public void deleteEventById(int id){
+        SQLiteDatabase db = getReadableDatabase();
+        db.delete(EVENTS_TABLE,ID + "=?",
+                        new String[]{"" + id});
+    }
+
 
     public void deleteAllContacts() {
         SQLiteDatabase db = getWritableDatabase();

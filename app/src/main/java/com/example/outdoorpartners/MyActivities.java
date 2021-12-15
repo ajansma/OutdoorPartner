@@ -20,6 +20,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO:
+// Add delete functionality (on long click)
+// Add an "add event" page to event details
+
 public class MyActivities extends AppCompatActivity {
     EventDatabaseHelper localEventHelper = new EventDatabaseHelper(this);
     public static ArrayList<Event> eventsToAdd = new ArrayList<>();
@@ -55,12 +59,10 @@ public class MyActivities extends AppCompatActivity {
                 super(itemView);
                 myTitle = itemView.findViewById(R.id.myTitle);
                 myImagePreview = itemView.findViewById(R.id.imagePreview);
-
                 itemView.setOnClickListener(this);
             }
 
             public void updateView(Event event){
-                System.out.println("VIDEO" + event);
                 myTitle.setText(event.getName());
                 myImagePreview.setImageResource(event.getImage());
             }
