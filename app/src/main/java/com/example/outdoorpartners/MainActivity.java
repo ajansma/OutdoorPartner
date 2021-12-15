@@ -44,6 +44,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+Final Project 321
+ */
+
 public class MainActivity extends AppCompatActivity {
     // sqlite database
     EventDatabaseHelper localEventHelper = new EventDatabaseHelper(this);
@@ -297,6 +301,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("hour", event.getHour());
                 intent.putExtra("min", event.getMin());
                 intent.putExtra("type", event.getType());
+                intent.putExtra("checked_event", true);
 
                 launcher.launch(intent);
                 Log.d(TAG, "Clicked");

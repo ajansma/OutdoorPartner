@@ -109,10 +109,12 @@ public class event_details extends AppCompatActivity {
             longitude = intent.getDoubleExtra("lng", -1);
             type = intent.getStringExtra("type");
             locationName = intent.getStringExtra("loc_name");
+            boolean checked = intent.getBooleanExtra("checked_event", false);
 
             // update view
             textViewName.setText(name);
             textViewDescription.setText(description);
+            checkBox.setChecked(checked);
 
             // set date
             buttonDate.setText(new StringBuilder()

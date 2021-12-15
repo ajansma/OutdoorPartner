@@ -63,8 +63,6 @@ public class Event {
         return event_id;
     }
 
-
-
     public String getType() {
         return type;
     }
