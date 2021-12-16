@@ -146,27 +146,24 @@ public class MainActivity extends AppCompatActivity {
 
                                 }
                                 else {
+                                    Boolean inList = false;
                                     List<Event> currEvents = localEventHelper.getSelectAllContacts();
                                     for (int j = 0; j < currEvents.size(); j++) {
                                         Event e = currEvents.get(j);
-                                        if (!(e.getName().equals(e2.getName()) && e.getDescription().equals(e2.getDescription()))) {
-                                            if (!(e.getDay() == e2.getDay())) {
-                                                localEventHelper.insertContact(eventsToAdd.get(i));
+                                        if ((e.getName().equals(e2.getName()) && e.getDescription().equals(e2.getDescription()))) {
+                                            if ((e.getDay() == e2.getDay())) {
+                                                inList = true;
                                             }
                                         }
+                                    }
+                                    if(inList == false){
+                                        System.out.println(e2.getName());
+                                        localEventHelper.insertContact(eventsToAdd.get(i));
                                     }
                                 }
                                 eventsToAdd.remove(i);
                                 i++;
                             }
-                            /*
-                            while(eventsToAdd.size() != 0) {
-                                localEventHelper.insertContact(eventsToAdd.get(i));
-                                eventsToAdd.remove(i);
-                                i++;
-                            }
-
-                             */
                             adapter.notifyDataSetChanged();
                         }
 
@@ -207,11 +204,9 @@ public class MainActivity extends AppCompatActivity {
                                 String locationName = intent.getStringExtra("locationName");
 
                                 int i = 0;
-                                while(eventsToAdd.size() != 0){
-                                    localEventHelper.insertContact(eventsToAdd.get(i));
-                                    eventsToAdd.remove(i);
-                                    i++;
-                                }
+                                Event event = new Event(event_name, 0, R.drawable.placeholder, locationName, event_description, year, month, day, hour, eventMin, type);
+                                localEventHelper.insertContact(event);
+
 
                                 Event event1 = new Event(event_description, 1, R.drawable.bowlpitcher,"Spokane", event_name, year, month, day, hour, eventMin, type, lat, lng, locationName);
                                 mDatabaseReference.push().setValue(event1);
@@ -237,25 +232,30 @@ public class MainActivity extends AppCompatActivity {
                                 String locationName = intent.getStringExtra("locationName");
                                 Boolean checked = intent.getBooleanExtra("checked_event", false);
                                 System.out.println("CHECKED " + checked);
+
                                 // check if already in list
+                                /*
                                 List<Event> currEvents = localEventHelper.getSelectAllContacts();
-                                for(int i = 0; i <= currEvents.size(); i++){
+                                for(int i = 0; i <= currEvents.size(); i++) {
                                     Event e = currEvents.get(i);
-                                    if(e.getName().equals(event_name) && e.getDescription().equals(event_description)){
-                                            if(e.getDay() == day){
-                                                if(!checked){
-                                                    List<Integer> ids = localEventHelper.getSelectAllIds();
-                                                    localEventHelper.deleteEventById(ids.get(i));
-                                                    adapter.notifyDataSetChanged();
-                                                }
+                                    if (e.getName().equals(event_name) && e.getDescription().equals(event_description)) {
+                                        if (e.getDay() == day) {
+                                            if (!checked) {
+                                                List<Integer> ids = localEventHelper.getSelectAllIds();
+                                                localEventHelper.deleteEventById(ids.get(i));
+                                                adapter.notifyDataSetChanged();
                                             }
-                                    }
-                                    else if (checked){
-                                        Event event = new Event(event_description, -1, R.drawable.placeholder, locationName, event_name, year, month, day, hour, eventMin, type);
-                                        localEventHelper.insertContact(event);
-                                        adapter.notifyDataSetChanged();
+                                        }
+                                    } else if (checked) {
+                                        if (!(e.getName().equals(event_name) && e.getDescription().equals(event_description))) {
+                                            Event event = new Event(event_description, -1, R.drawable.placeholder, locationName, event_name, year, month, day, hour, eventMin, type);
+                                            localEventHelper.insertContact(event);
+                                            adapter.notifyDataSetChanged();
+                                        }
                                     }
                                 }
+
+                  */
 
                             }
                         }
